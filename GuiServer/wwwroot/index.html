@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Options Backtesting Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@7.0.0/dist/browser/signalr.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Options Backtesting Dashboard</h1>
+            <p class="subtitle">Moving Average Crossover Strategy</p>
+        </header>
+
+        <div class="content">
+            <!-- Control Panel -->
+            <div class="panel control-panel">
+                <h2>Backtest Parameters</h2>
+
+                <div class="form-group">
+                    <label>Tickers:</label>
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" id="ticker-nvda" value="NVDA" checked>
+                            NVDA
+                        </label>
+                        <label>
+                            <input type="checkbox" id="ticker-tsla" value="TSLA" checked>
+                            TSLA
+                        </label>
+                        <label>
+                            <input type="checkbox" id="ticker-aapl" value="AAPL" checked>
+                            AAPL
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="start-date">Start Date:</label>
+                    <input type="date" id="start-date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="end-date">End Date:</label>
+                    <input type="date" id="end-date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="short-period">Short MA Period (minutes):</label>
+                    <input type="number" id="short-period" value="10" min="1" max="100">
+                </div>
+
+                <div class="form-group">
+                    <label for="long-period">Long MA Period (minutes):</label>
+                    <input type="number" id="long-period" value="30" min="1" max="200">
+                </div>
+
+                <div class="form-group">
+                    <label for="initial-capital">Initial Capital ($):</label>
+                    <input type="number" id="initial-capital" value="100000" min="1000" step="1000">
+                </div>
+
+                <button id="start-btn" class="btn-primary">Start Backtest</button>
+
+                <div id="progress-container" class="progress-container" style="display: none;">
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                    <p id="progress-text" class="progress-text">0%</p>
+                </div>
+
+                <div id="connection-status" class="status-indicator">
+                    <span class="status-dot disconnected"></span>
+                    <span id="status-text">Disconnected</span>
+                </div>
+            </div>
+
+            <!-- Results Panel -->
+            <div class="panel results-panel">
+                <h2>Performance Metrics</h2>
+                <div id="metrics-grid" class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Total P&L</div>
+                        <div class="metric-value" id="metric-pnl">$0.00</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Return %</div>
+                        <div class="metric-value" id="metric-return">0.00%</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Sharpe Ratio</div>
+                        <div class="metric-value" id="metric-sharpe">0.00</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Max Drawdown</div>
+                        <div class="metric-value" id="metric-drawdown">0.00%</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Total Trades</div>
+                        <div class="metric-value" id="metric-trades">0</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Win Rate</div>
+                        <div class="metric-value" id="metric-winrate">0.00%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Equity Curve Chart -->
+            <div class="panel chart-panel">
+                <h2>Equity Curve</h2>
+                <canvas id="equity-chart"></canvas>
+            </div>
+
+            <!-- Trade Log -->
+            <div class="panel trade-panel">
+                <h2>Trade Log</h2>
+                <div class="table-container">
+                    <table id="trade-table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Ticker</th>
+                                <th>Action</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>P&L</th>
+                            </tr>
+                        </thead>
+                        <tbody id="trade-tbody">
+                            <tr>
+                                <td colspan="6" class="no-data">No trades yet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
