@@ -110,14 +110,29 @@ public class PerformanceCalculator
         if (stdDev == 0)
             return 0;
 
-        // Annualize
-        // Assuming minute-level data: 252 trading days * 390 minutes per day
-        var periodsPerYear = 252 * 390;
+        // Annualize based on actual time intervals between equity points
+        // Calculate average minutes between equity points using timestamps
+        var totalMinutes = (equityHistory.Last().Timestamp - equityHistory.First().Timestamp) / 60000.0; // Convert ms to minutes
+        var avgMinutesPerPeriod = totalMinutes / (equityHistory.Count - 1);
+
+        // Calculate periods per year based on actual interval
+        // 252 trading days * 390 minutes per day = 98,280 minutes per year
+        var minutesPerYear = 252 * 390;
+        var periodsPerYear = minutesPerYear / avgMinutesPerPeriod;
+
         var annualizedReturn = meanReturn * periodsPerYear;
         var annualizedStdDev = stdDev * Math.Sqrt(periodsPerYear);
 
         // Sharpe ratio
         var sharpeRatio = (annualizedReturn - _riskFreeRate) / annualizedStdDev;
+
+        // Validation: Warn if Sharpe ratio seems unrealistic
+        if (Math.Abs(sharpeRatio) > 10)
+        {
+            Console.WriteLine($"WARNING: Sharpe Ratio ({sharpeRatio:F2}) is unusually high. " +
+                $"Avg period interval: {avgMinutesPerPeriod:F1} minutes, " +
+                $"Periods/year: {periodsPerYear:F0}");
+        }
 
         return sharpeRatio;
     }

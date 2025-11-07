@@ -2,22 +2,22 @@
 BACKTEST RESULTS
 ============================================================
 Strategy: MA Crossover (10/50)
-Period: 2024-12-03 to 2025-11-07
+Period: 2023-11-07 to 2025-11-07
 Tickers: NVDA, TSLA, AAPL
 
 Initial Capital:         $50,000.00
-Final Capital:           $50,648.00
-Total P&L:                  $648.00 (1.30%)
+Final Capital:           $54,803.00
+Total P&L:                $4,803.00 (9.61%)
 
-Sharpe Ratio:                 5.285
-Max Drawdown:                 17.24% ($8,674.00)
+Sharpe Ratio:                -0.183
+Max Drawdown:                 19.24% ($9,691.00)
 
-Total Trades:                    93
-Winning Trades:                  10
-Losing Trades:                   83
-Win Rate:                     10.75%
+Total Trades:                   112
+Winning Trades:                  17
+Losing Trades:                   95
+Win Rate:                     15.18%
 
-Average Win:              $1,620.40
-Average Loss:               $189.71
-Profit Factor:                 1.04
+Average Win:              $1,202.82
+Average Loss:               $166.44
+Profit Factor:                 1.31
 ============================================================

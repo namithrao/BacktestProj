@@ -37,7 +37,6 @@ appsettings.Development.json
 appsettings.Local.json
 
 # Results and logs
-results.txt
 *.log
 
 
